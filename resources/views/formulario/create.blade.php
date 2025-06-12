@@ -15,15 +15,24 @@
                 @csrf
                 <div>
                     <label for="titulo">Título:</label>
-                    <input type="text" id="titulo" name="titulo" required>
+                    <input type="text" id="titulo" name="title" required>
+                    @error('title')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <label for="contenido">Contenido:</label>
-                    <textarea id="contenido" name="contenido" rows="6" required></textarea>
+                    <textarea id="contenido" name="content" rows="6" required></textarea>
+                    @error('content')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div>
                     <label for="link">Link:</label>
                     <input type="url" id="link" name="link" required>
+                    @error('link')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <button type="submit">Guardar</button>
             </form>

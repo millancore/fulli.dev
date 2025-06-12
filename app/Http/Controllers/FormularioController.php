@@ -15,14 +15,14 @@ class FormularioController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'contenido' => 'required|string',
+            'title' => 'required|string|max:60',
+            'content' => 'required|string',
             'link' => 'required|url|max:255',
         ]);
 
-        Article::create([
-            'title' => $validated['titulo'],
-            'content' => $validated['contenido'],
+       $article = Article::create([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
             'link' => $validated['link'],
         ]);
 
