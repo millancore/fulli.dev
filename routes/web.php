@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ArticleController;
 use App\Models\Category;
 
+Route::view('/test', 'library.list');
 
 Route::get('/', [CategoryController::class, 'index'])->name('home');
 Route::get('/category/{id}/articles', [CategoryController::class, 'showArticles'])->name('categories.articles');
