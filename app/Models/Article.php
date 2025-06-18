@@ -14,4 +14,9 @@ class Article extends Model
         'content',
         'link',
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'article_category');
+    }
 }

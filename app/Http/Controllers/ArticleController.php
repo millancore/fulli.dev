@@ -6,15 +6,22 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
-class FormularioController extends Controller
+class ArticleController extends Controller
 {
-    public function create()
+    public function index()
     {
-        $categories = Category::all();
-        return view('formulario.create', compact('categories'));
+        $articles = Article::all();
+        return view('list.all', compact('articles'));
     }
 
-    public function store(Request $request)
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        $categories = Category::all();
+        return view('list.edit', compact('article', 'categories'));
+    }
+
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:60',
@@ -25,13 +32,14 @@ class FormularioController extends Controller
         ]);
 
         if ($request->category_id === 'new' && $request->filled('new_category')) {
-            $category = \App\Models\Category::firstOrCreate(['name' => $request->new_category]);
+            $category = Category::firstOrCreate(['name' => $request->new_category]);
             $categoryId = $category->id;
         } else {
             $categoryId = $request->category_id;
         }
 
-        $article = Article::create([
+        $article = Article::findOrFail($id);
+        $article->update([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'link' => $validated['link'],
@@ -39,6 +47,6 @@ class FormularioController extends Controller
         if ($categoryId) {
             $article->categories()->sync([$categoryId]);
         }
-        return redirect()->route('list.show', ['id' => $article->id])->with('success', 'Article created successfully.');
+        return redirect()->route('articles.list')->with('success', 'Article updated successfully.');
     }
 }
