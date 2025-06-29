@@ -9,37 +9,32 @@ test('show articles in home', function () {
 });
 
 test('create article', function () {
-
     $response = $this->post(route('form.store'), [
         'title' => 'Test Article',
         'content' => 'Test Article Content',
         'link' => 'http://example.com',
     ]);
 
-    $response->assertRedirect(route('home'))
-        ->assertSee('Artículo creado correctamente.');
+    $article = Article::latest()->first();
+
+    $response->assertRedirect(route('list.show', $article));
 
     $this->assertDatabaseHas('articles', [
         'title' => 'Test Article',
     ]);
-
 });
 
-/*
-test('show article detail', function () {
-    $articulo = Articulo::factory()->create();
-    $response = $this->get(route('list.show', ['id' => $articulo->id]));
-    $response->assertStatus(200);
-    $response->assertSee($articulo->titulo);
-    $response->assertSee($articulo->contenido);
-    $response->assertSee($articulo->link);
+test('article detail view shows all content', function () {
+    $article = Article::factory()->create([
+        'title' => 'Test Article',
+        'content' => 'Test Article Content',
+        'link' => 'http://example.com',
+    ]);
+
+    $response = $this->get(route('list.show', $article));
+
+    $response->assertSee('Test Article');
+    $response->assertSee('Test Article Content');
+    $response->assertSee('http://example.com');
 });
 
-test('sidebar shows article titles on welcome', function () {
-    $articulos = Articulo::factory()->count(3)->create();
-    $response = $this->get('/');
-    foreach ($articulos as $articulo) {
-        $response->assertSee($articulo->titulo);
-    }
-});
-*/

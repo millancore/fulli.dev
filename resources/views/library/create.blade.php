@@ -3,6 +3,9 @@
 @section('content')
 
     <div class="container">
+        <div class="mb-4">
+            <a href="/" class="btn btn-outline-secondary">← Back</a>
+        </div>
         <h1>Create Library</h1>
         <form action="{{ route('form.store') }}" method="post">
             @csrf

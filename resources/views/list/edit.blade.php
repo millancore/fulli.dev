@@ -4,40 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Library</title>
-    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^20/dist/primer.css">
-    <link rel="stylesheet" href="{{ asset('css/app-purple.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container" style="max-width:none;width:100vw;height:100vh;margin:0;background:none;border-radius:0;box-shadow:none;padding:0;display:flex;flex-direction:row;align-items:stretch;">
-        <form action="{{ route('articles.update', $article->id) }}" method="POST">
-            <div class="header">
-                @csrf
-                @method('PUT')
-                <button type="submit" class="save-btn">Save</button>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title mb-4 text-center">Edit Article</h1>
+                    <form action="{{ route('articles.update', $article->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title:</label>
+                            <input type="text" id="title" name="title" class="form-control" value="{{ old('title', $article->title) }}" required>
+                            @error('title')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content:</label>
+                            <textarea id="content" name="content" rows="6" class="form-control" required>{{ old('content', $article->content) }}</textarea>
+                            @error('content')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="link" class="form-label">Link:</label>
+                            <input type="url" id="link" name="link" class="form-control" value="{{ old('link', $article->link) }}" required>
+                            @error('link')
+                            <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
+                    </form>
+                </div>
             </div>
-            <h1>Edit Article</h1>
-            <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" value="{{ old('title', $article->title) }}" required>
-                @error('title')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="content">Content:</label>
-                <textarea id="content" name="content" rows="6" required>{{ old('content', $article->content) }}</textarea>
-                @error('content')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="link">Link:</label>
-                <input type="url" id="link" name="link" value="{{ old('link', $article->link) }}" required>
-                @error('link')
-                <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-            </div>
-        </form>
+        </div>
     </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

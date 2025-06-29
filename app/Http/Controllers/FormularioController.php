@@ -11,7 +11,7 @@ class FormularioController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('library.create', compact('categories'));
+        return view('formulario.create', compact('categories'));
     }
 
     public function store(Request $request)
