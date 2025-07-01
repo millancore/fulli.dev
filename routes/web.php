@@ -28,3 +28,4 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::post('/admin/register', [LoginController::class, 'registerAdmin'])->name('admin.register');
 Route::get('/admin/create-test', [LoginController::class, 'createTestAdmin']);
+
