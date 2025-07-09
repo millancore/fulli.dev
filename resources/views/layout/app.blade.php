@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>@yield('title', 'Document')</title>
+    @vite('resources/js/app.js')
 </head>
 <body>
-
-<aside>
-
-</aside>
 @yield('content')
-
 </body>
 </html>

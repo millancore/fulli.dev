@@ -11,7 +11,7 @@ describe('LoginController', function () {
         $response->assertViewIs('auth.login');
     });
 
-    test('admin can login with correct credentials', function () {
+    test('admin can login and access restricted page', function () {
         $admin = Admin::factory()->create([
             'password' => bcrypt('password123'),
         ]);
@@ -21,6 +21,13 @@ describe('LoginController', function () {
         ]);
         $response->assertRedirect('/');
         $this->assertTrue(session()->has('admin_id'));
+        $restricted = $this->withSession(['admin_id' => $admin->id])->get('/admin');
+        $restricted->assertOk();
+    });
+
+    test('guest cannot access restricted page', function () {
+        $response = $this->get('/admin');
+        $response->assertRedirect(route('login'));
     });
 
     test('admin cannot login with wrong credentials', function () {

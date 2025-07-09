@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container" style="max-width: 400px; margin: 80px auto;">
+@extends('layout.app')
+
+@section('content')
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="container" style="max-width: 400px;">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h2 class="card-title text-center text-primary mb-4">Login</h2>
+                <h2 class="card-title text-center mb-4" style="color: #6f42c1;">Login</h2>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="mb-3">
@@ -26,10 +22,10 @@
                         <div class="alert alert-danger mt-2">{{ $message }}</div>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn w-100" style="background-color: #6f42c1; color: #fff;">Login</button>
                 </form>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection
