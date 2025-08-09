@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Document')</title>
-    @vite('resources/js/app.js')
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@yield('title', 'Document')</title>
+  @vite('resources/js/app.js')
 </head>
-<body>
-  <div class="container" style="max-width:none;width:100vw;height:100vh;margin:0;background:none;border-radius:0;box-shadow:none;padding:0;display:flex;flex-direction:row;align-items:stretch;">
-    <div class="sidebar d-flex flex-column justify-content-between p-3" style="min-width:220px; background-color: #f5eafd;">
+<body class="bg-light">
+
+
+  <div class="container-fluid d-flex min-vh-100 p-0" style="background-color: #ede9fe;">
+
+  <button class="btn btn-sm btn-primary d-md-none m-3" onclick="toggleSidebar()">
+    ☰ Mostrar sidebar
+  </button>
+
+    <div class="w-25 border-left px-3 py-4 d-none d-md-block" style="background-color: #ede9fe;">
       @yield('sidebar')
     </div>
-    <div class="main-content flex-grow-1 p-4">
+
+    <div class="w-100 w-md-75 px-4 py-4">
       @yield('content')
     </div>
-  </div>
+  </div>  
 </body>
+
 </html>

@@ -10,8 +10,15 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('welcome', compact('categories'));
+        return view('list.all', compact('categories'));
     }
+
+    public function show($id)
+    {
+        $category = Category::with('articles')->findOrFail($id);
+        return view('welcome', compact('category'));
+    }
+
 
     public function showArticles($id)
     {

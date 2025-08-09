@@ -11,7 +11,7 @@ class ListController extends Controller
     public function show($id)
     {
         $article = Article::findOrFail($id);
-        return view('list.show', [
+        return view('library.show', [
             'article' => $article
         ]);
     }

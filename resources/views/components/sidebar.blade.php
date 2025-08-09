@@ -1,41 +1,85 @@
-<div class="h-100 d-flex flex-column justify-content-between">
-  <div>
-    @if(isset($articles))
-      <h3 class="text-center mb-3"></h3>
-      @if($articles->isEmpty())
-        <span class="text-muted">No library in this category</span>
-      @else
-        <ul class="list-unstyled">
-          @foreach($articles as $article)
-            <li class="mb-2">
-              <a href="{{ route('list.show', ['id' => $article->id]) }}" class="btn w-100 text-start" style="background-color: #ede7f6; color: #5a189a; border: none;">{{ $article->title }}</a>
-            </li>
-          @endforeach
-        </ul>
+<div class="min-vh-100 py-5 border-top" style="background-color: #ede9fe;border-top: 1px solid red;">
+  <div class="d-sm-none d-md-block">
+  <div class="container min-vh-100 " style="background-color: #ede9fe; border-right: 1px solid #d0bfff;">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        @isset($category)
+          <h3 class="text-dark mb-4 ">{{ $category->name }}</h3>
+
+          <a href="{{ route('index') }}" class="mb-4 d-block text-decoration-none text-primary">
+            ← Back
+          </a>
+
+          @if ($category->articles->isEmpty())
+            <p class="text-muted ">No articles</p>
+          @else 
+            <div class="d-flex flex-column gap-2">
+                <div class="d-flex flex-column gap-3">
+                  @foreach ($category->articles as $article)
+                    <div class="row align-items-center">
+
+                      <div class="col-8">
+                        <a href="{{ route('article.show', [$article->id]) }}"
+                          class="text-dark text-decoration-none fw-medium">
+                          {{ $article->title }}
+                        </a>
+                      </div>
+
+                      @if(Auth::check())
+                        <div class="col-4 text-end">
+                          <a href="{{ route('articles.edit', $article->id) }}"
+                            class="btn btn-sm btn-outline-primary">
+                            Editar
+                          </a>
+                        </div>
+                      @endif
+                    </div>
+                  @endforeach
+                </div>
+
+
+            </div>
+          @endif
+
+      @elseif(isset($categories))
+        <h3 class="text-dark mb-4 ">Categories</h3>
+
+        @if ($categories->isEmpty())
+          <p class="text-muted text-center">No categories</p>
+        @else
+          <div class="d-flex flex-column gap-1 ps-3">
+                <div class="d-flex flex-column gap-3">
+                  @foreach ($categories as $category)
+                    <div class="row align-items-center">
+
+                      <div class="col-8">
+                        <a href="{{ route('categories.show', [$category->id]) }}"
+                          class="text-dark text-decoration-none fw-medium">
+                          {{ $category->name }}
+                        </a>
+                      </div>
+                      @if(Auth::check())
+                        <div class="col-4 text-end">
+                          <form action="{{ route('categories.destroy', $category->id) }}"
+                                method="POST"
+                                onsubmit="return confirm('¿Seguro que deseas eliminar esta categoría?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                              Eliminar
+                            </button>
+                          </form>
+                        </div>
+                      @endif
+                    </div>
+                  @endforeach
+                </div>
+          </div>
+        @endif
       @endif
-      <form action="{{ route('home') }}" method="get" class="mt-4">
-        <button type="submit" class="btn btn-secondary w-100">← Back to categories</button>
-      </form>
-    @else
-      <h3 class="text-center mb-3">Categories</h3>
-      @if(empty($categories))
-        <span class="text-muted">No categories</span>
-      @endif
-      @foreach($categories as $category)
-        <form action="{{ route('categories.articles', ['id' => $category->id]) }}" method="get" class="mb-2">
-          <button type="submit" class="btn w-100" style="background-color: #6f42c1; color: #fff;">{{ $category->name }}</button>
-        </form>
-      @endforeach
-    @endif
+      </div>
+    </div>
   </div>
-  @auth
-  <div class="pt-4 d-flex flex-column align-items-start" style="gap: 0.5rem;">
-    <a href="{{ route('articles.list') }}" class="btn w-100 mb-2" style="background-color: #5a189a; color: #fff;">List</a>
-    <a href="{{ route('form.create') }}" class="btn w-100 mb-2" style="background-color: #9d4edd; color: #fff;">Create</a>
-    <form method="POST" action="{{ route('logout') }}" class="w-100">
-      @csrf
-      <button type="submit" class="btn w-100" style="background-color: #b5179e; color: #fff;">Logout</button>
-    </form>
-  </div>
-  @endauth
+</div>
 </div>

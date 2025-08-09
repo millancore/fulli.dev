@@ -8,9 +8,8 @@
     @vite('resources/scss/app.scss')
 </head>
 <body>
+    @yield('content')
 
-@yield('content')
-
-@vite('resources/js/app.js')
+    @vite('resources/js/app.js')
 </body>
 </html>

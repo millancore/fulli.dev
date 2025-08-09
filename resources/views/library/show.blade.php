@@ -1,28 +1,18 @@
 @extends('layout.app_sidebar')
 
-@section('sidebar')
-  <div class="p-4 d-flex flex-column justify-content-between h-100" style="min-width:240px;">
-    <div>
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <span class="fw-bold fs-5">Links</span>
-        <a href="/" class="btn btn-outline-secondary btn-sm">← Back</a>
-      </div>
-      <div>
-        @if(isset($article) && $article->link)
-          <a href="{{ $article->link }}" target="_blank">{{ $article->link }}</a>
-        @else
-          <span class="text-muted">No links</span>
-        @endif
-      </div>
-    </div>
+@section('content')
+<div class="min-vh-100 py-5 border-top" style="background-color: #ede9fe;">
+  <div class="p-4 rounded" style="background-color: #ede9fe;">
+    <h2 class="text-center my-4">{{ $article->title }}</h2>
+    <p class="mt-3 ps-2">{{ $article->content }}</p>
+    <p class="mt-3 ps-2">
+      <strong>Link:</strong>
+      <a href="{{ $article->link }}" target="_blank" class="text-decoration-none text-primary">{{ $article->link }}</a>
+    </p>
   </div>
+
 @endsection
 
-@section('content')
-  <div class="card shadow-sm">
-    <div class="card-body">
-      <h1 class="card-title mb-3">{{ $article->title ?? 'No title' }}</h1>
-      <div class="card-text">{{ $article->content ?? '' }}</div>
-    </div>
-  </div>
+@section('sidebar')
+  @include('components.sidebar', ['category' => $category])
 @endsection
