@@ -30,7 +30,7 @@
                         <div class="col-4 text-end">
                           <a href="{{ route('articles.edit', $article->id) }}"
                             class="btn btn-sm btn-outline-primary">
-                            Editar
+                            Edit
                           </a>
                         </div>
                       @endif
@@ -63,11 +63,11 @@
                         <div class="col-4 text-end">
                           <form action="{{ route('categories.destroy', $category->id) }}"
                                 method="POST"
-                                onsubmit="return confirm('¿Seguro que deseas eliminar esta categoría?')">
+                                onsubmit="return confirm('Are you sure you want to delete this category?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-outline-danger">
-                              Eliminar
+                              Delete
                             </button>
                           </form>
                         </div>
@@ -77,6 +77,8 @@
                 </div>
           </div>
         @endif
+        <button><-</button>
+        <button>-></button>
       @endif
       </div>
     </div>

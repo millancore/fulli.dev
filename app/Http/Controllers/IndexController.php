@@ -8,10 +8,11 @@ use App\Models\Category;
 
 class IndexController extends Controller
 {
-    public function index()
+public function index()
     {
-        $articles = Article::all();
-        $categories = Category::all();
+        $articles = Article::paginate(10);
+        $categories = Category::paginate(10);
+
         return view('welcome')->with([
             'articles' => $articles,
             'categories' => $categories,

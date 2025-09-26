@@ -56,7 +56,7 @@
                                 </option>
                             @endforeach
                             <option value="new" {{ old('category_id') == 'new' ? 'selected' : '' }}>Other (add new)</option>
-                        </select>
+                        </select
 
                         <input type="text" id="new_category" name="new_category" class="form-control mt-2" placeholder="New category name"
                             style="display:{{ old('category_id') == 'new' ? 'block' : 'none' }};"
@@ -82,5 +82,5 @@
 @endsection
 
 @section('sidebar')
-  @include('components.sidebar', ['category' => $myCategory])
+  @include('components.sidebar', ['category' => $myCategory ?? null])
 @endsection

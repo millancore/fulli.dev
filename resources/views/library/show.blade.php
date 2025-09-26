@@ -14,5 +14,6 @@
 @endsection
 
 @section('sidebar')
-  @include('components.sidebar', ['category' => $category])
+    @include('components.sidebar', ['category' => $category])
 @endsection
+

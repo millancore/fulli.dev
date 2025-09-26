@@ -10,22 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class FormularioController extends Controller
 {
-    public function create()
-    {
-        $categories = \App\Models\Category::all();
-        return view('formulario.create', [
-            'categories' => $categories,
-            'article' => null,
-            'isEdit' => false,
-        ]);
-    }
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:60',
             'content' => 'required|string',
             'link' => 'required|url|max:255',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'nullable|string',
             'new_category' => 'nullable|string|max:60',
         ]);
 
@@ -33,6 +24,9 @@ class FormularioController extends Controller
             $category = \App\Models\Category::firstOrCreate(['name' => $request->new_category]);
             $categoryId = $category->id;
         } else {
+            if ($request->category_id) {
+                \App\Models\Category::findOrFail($request->category_id);
+            }
             $categoryId = $request->category_id;
         }
 
@@ -41,11 +35,19 @@ class FormularioController extends Controller
             'content' => $validated['content'],
             'link' => $validated['link'],
         ]);
+
         if ($categoryId) {
             $article->categories()->sync([$categoryId]);
         }
-        return redirect()->route('list.show', ['id' => $article->id])->with('success', 'Article created successfully.');
+
+        $myCategory = \App\Models\Category::with('articles')->find($categoryId);
+
+        return redirect()
+            ->route('list.show', ['id' => $article->id])
+            ->with('success', 'Article created successfully.')
+            ->with('category', $myCategory);
     }
+
 
     public function edit($id)
     {
@@ -70,18 +72,28 @@ class FormularioController extends Controller
     public function update(Request $request, $id)
     {
         $article = \App\Models\Article::findOrFail($id);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'link' => 'required|url',
-            'category_id' => 'required_without:new_category|nullable|exists:categories,id',
+            'category_id' => 'nullable|string',
             'new_category' => 'nullable|string|max:255',
         ]);
+
         if ($request->filled('new_category')) {
             $category = \App\Models\Category::create(['name' => $request->new_category]);
             $validated['category_id'] = $category->id;
         }
+
         $article->update($validated);
-        return redirect()->route('articles.list')->with('success', 'Article updated successfully.');
+
+        if (!empty($validated['category_id'])) {
+            $article->categories()->sync([$validated['category_id']]);
+        }
+
+        return redirect()
+            ->route('article.show', $article->id)
+            ->with('success', 'Article updated successfully.');
     }
 }
